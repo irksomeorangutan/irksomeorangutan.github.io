@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IrksomeOrangutan | Photography</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Lora (Classic Serif Font) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom styles for a smooth experience */
+        body {
+            font-family: 'Lora', Georgia, serif; /* Using a classic serif font */
+            background-color: #111827; /* bg-gray-900 */
+            /* A subtle, professional geometric pattern for the background */
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23374151' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+            color: #d1d5db; /* text-gray-300 */
+        }
+        /* Style for the gallery images */
+        .gallery-img {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .gallery-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
+        }
+        /* Fade-in animation for modal */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-gray-900/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-20 border-b border-gray-700">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-white">IrksomeOrangutan</a>
+            <nav class="hidden md:flex items-center space-x-6 text-sm">
+                <a href="#gallery" class="text-gray-300 hover:text-white transition-colors">Gallery</a>
+                <a href="#contact" class="text-gray-300 hover:text-white transition-colors">Contact</a>
+            </nav>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#gallery" class="block py-2 text-gray-300 hover:text-white">Gallery</a>
+            <a href="#contact" class="block py-2 text-gray-300 hover:text-white">Contact</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 pt-24">
+        <!-- Hero Section -->
+        <section id="hero" class="text-center py-16 md:py-24">
+            <h1 class="text-2xl md:text-4xl font-bold text-white mb-4">India through my eyes</h1>
+        </section>
+
+        <!-- Photo Gallery Section -->
+        <section id="gallery">
+            
+            <!-- This is a masonry-style collage grid. It's responsive and adjusts columns automatically. -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="grid gap-4">
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x800/1e293b/ffffff?text=Collage" alt="A tall, vertical photograph." onclick="openModal(this.src, this.alt)">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x400/334155/ffffff?text=Collage" alt="A wide, landscape photograph." onclick="openModal(this.src, this.alt)">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x450/475569/ffffff?text=Collage" alt="A standard landscape photograph." onclick="openModal(this.src, this.alt)">
+                    </div>
+                </div>
+                <div class="grid gap-4">
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x400/64748b/ffffff?text=Collage" alt="A wide landscape photograph." onclick="openModal(this.src, this.alt)">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x900/94a3b8/ffffff?text=Collage" alt="A very tall portrait photograph." onclick="openModal(this.src, this.alt)">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x400/1e293b/ffffff?text=Collage" alt="A landscape photograph." onclick="openModal(this.src, this.alt)">
+                    </div>
+                </div>
+                <div class="grid gap-4">
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x850/334155/ffffff?text=Collage" alt="A tall portrait photograph." onclick="openModal(this.src, this.alt)">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x400/475569/ffffff?text=Collage" alt="A wide landscape photograph." onclick="openModal(this.src, this.alt)">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x600/64748b/ffffff?text=Collage" alt="A square photograph." onclick="openModal(this.src, this.alt)">
+                    </div>
+                </div>
+                <div class="grid gap-4">
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x400/94a3b8/ffffff?text=Collage" alt="A wide landscape photograph." onclick="openModal(this.src, this.alt)">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x800/1e293b/ffffff?text=Collage" alt="A tall portrait photograph." onclick="openModal(this.src, this.alt)">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x450/334155/ffffff?text=Collage" alt="A standard landscape photograph." onclick="openModal(this.src, this.alt)">
+                    </div>
+                </div>
+
+                <!-- 
+                *** TEMPLATE FOR MORE PHOTOS ***
+                To add more photos, uncomment the block below. 
+                You can add as many columns as you like.
+                Just copy the entire '<div class="grid gap-4">...</div>' block.
+                
+                <div class="grid gap-4">
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x800/1e293b/ffffff?text=New+Photo" alt="Description of new photo" onclick="openModal(this.src, this.alt)">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x400/334155/ffffff?text=New+Photo" alt="Description of new photo" onclick="openModal(this.src, this.alt)">
+                    </div>
+                </div> 
+                -->
+
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="pt-24 pb-4 text-center">
+            <h2 class="text-2xl font-bold text-white mb-6">Get In Touch</h2>
+            <a href="mailto:ashwinaws123@gmail.com" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-500 transition-colors text-sm">
+                Email Me
+            </a>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 mt-8">
+        <div class="container mx-auto px-6 py-6 text-center text-gray-500 text-xs">
+            <p>&copy; <span id="year"></span> IrksomeOrangutan</p>
+        </div>
+    </footer>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden items-center justify-center p-4 modal-fade-in" onclick="closeModal()">
+        <div class="relative max-w-6xl max-h-full">
+            <img id="modalImage" src="" alt="" class="w-auto h-auto max-w-full max-h-[90vh] rounded-lg shadow-2xl">
+            <p id="modalCaption" class="text-center text-white mt-4 text-sm"></p>
+        </div>
+        <button class="absolute top-6 right-8 text-white text-4xl font-bold">&times;</button>
+    </div>
+
+
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Image Modal Logic
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+
+        function openModal(src, alt) {
+            modalImage.src = src;
+            modalImage.alt = alt;
+            modalCaption.textContent = alt;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+
+</body>
+</html>
