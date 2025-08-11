@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IrksomeOrangutan | Photography</title>
+    <title>Irksomeorangutan | Photography</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -24,7 +24,11 @@
         }
         /* Style for the gallery images */
         .gallery-img {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 1;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
         }
         .gallery-img:hover {
             transform: scale(1.05);
@@ -45,7 +49,7 @@
     <!-- Header -->
     <header class="bg-gray-900/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-20 border-b border-gray-700">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-xl font-bold text-white">IrksomeOrangutan</a>
+            <a href="#" class="text-xl font-bold text-white">Irksomeorangutan</a>
             <nav class="hidden md:flex items-center space-x-6 text-sm">
                 <a href="#gallery" class="text-gray-300 hover:text-white transition-colors">Gallery</a>
                 <a href="#contact" class="text-gray-300 hover:text-white transition-colors">Contact</a>
@@ -70,70 +74,9 @@
 
         <!-- Photo Gallery Section -->
         <section id="gallery">
-            
-            <!-- This is a masonry-style collage grid. It's responsive and adjusts columns automatically. -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="grid gap-4">
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x800/1e293b/ffffff?text=Collage" alt="A tall, vertical photograph." onclick="openModal(this.src, this.alt)">
-                    </div>
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x400/334155/ffffff?text=Collage" alt="A wide, landscape photograph." onclick="openModal(this.src, this.alt)">
-                    </div>
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x450/475569/ffffff?text=Collage" alt="A standard landscape photograph." onclick="openModal(this.src, this.alt)">
-                    </div>
-                </div>
-                <div class="grid gap-4">
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x400/64748b/ffffff?text=Collage" alt="A wide landscape photograph." onclick="openModal(this.src, this.alt)">
-                    </div>
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x900/94a3b8/ffffff?text=Collage" alt="A very tall portrait photograph." onclick="openModal(this.src, this.alt)">
-                    </div>
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x400/1e293b/ffffff?text=Collage" alt="A landscape photograph." onclick="openModal(this.src, this.alt)">
-                    </div>
-                </div>
-                <div class="grid gap-4">
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x850/334155/ffffff?text=Collage" alt="A tall portrait photograph." onclick="openModal(this.src, this.alt)">
-                    </div>
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x400/475569/ffffff?text=Collage" alt="A wide landscape photograph." onclick="openModal(this.src, this.alt)">
-                    </div>
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x600/64748b/ffffff?text=Collage" alt="A square photograph." onclick="openModal(this.src, this.alt)">
-                    </div>
-                </div>
-                <div class="grid gap-4">
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x400/94a3b8/ffffff?text=Collage" alt="A wide landscape photograph." onclick="openModal(this.src, this.alt)">
-                    </div>
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x800/1e293b/ffffff?text=Collage" alt="A tall portrait photograph." onclick="openModal(this.src, this.alt)">
-                    </div>
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x450/334155/ffffff?text=Collage" alt="A standard landscape photograph." onclick="openModal(this.src, this.alt)">
-                    </div>
-                </div>
-
-                <!-- 
-                *** TEMPLATE FOR MORE PHOTOS ***
-                To add more photos, uncomment the block below. 
-                You can add as many columns as you like.
-                Just copy the entire '<div class="grid gap-4">...</div>' block.
-                
-                <div class="grid gap-4">
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x800/1e293b/ffffff?text=New+Photo" alt="Description of new photo" onclick="openModal(this.src, this.alt)">
-                    </div>
-                    <div>
-                        <img class="h-auto max-w-full rounded-lg gallery-img cursor-pointer" src="https://placehold.co/600x400/334155/ffffff?text=New+Photo" alt="Description of new photo" onclick="openModal(this.src, this.alt)">
-                    </div>
-                </div> 
-                -->
-
+            <!-- This grid will be populated by the slideshow script -->
+            <div id="slideshow-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Images will be inserted here by JavaScript -->
             </div>
         </section>
         
@@ -150,7 +93,7 @@
     <!-- Footer -->
     <footer class="border-t border-gray-800 mt-8">
         <div class="container mx-auto px-6 py-6 text-center text-gray-500 text-xs">
-            <p>&copy; <span id="year"></span> IrksomeOrangutan</p>
+            <p>&copy; <span id="year"></span> Irksomeorangutan</p>
         </div>
     </footer>
 
@@ -165,6 +108,61 @@
 
 
     <script>
+        // --- CONFIGURATION ---
+        // Add all your image filenames to this array
+        const allImages = [
+            '0.jpg', 'DSCF1572.JPG', 'DSCF1576.JPG', 'DSCF1632.JPG', 
+            'DSCF1733.JPG', 'DSCF1777.JPG', 'DSCF1778.JPG', 'DSCF1847.JPG', 
+            'DSCF1858.JPG', 'DSCF1905.JPG', 'DSCF1945.JPG', 'DSCF1978.JPG', 
+            'DSCF2004.JPG', 'DSCF2023.JPG', 'img1.jpg', 'img10.jpg', 
+            'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg', 'img6.jpg', 
+            'img7.jpg', 'img8.jpg', 'img9.jpg'
+        ];
+        const imagesToShow = 8; // Number of images to display at once
+        const changeInterval = 5000; // Time in milliseconds (5000ms = 5 seconds)
+
+        // --- SLIDESHOW LOGIC ---
+        const slideshowGrid = document.getElementById('slideshow-grid');
+        let currentImageSet = [];
+
+        // Function to get a specified number of unique random images
+        function getRandomImages() {
+            const shuffled = allImages.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, imagesToShow);
+        }
+
+        // Function to update the grid with new images
+        function updateSlideshow() {
+            const newImages = getRandomImages();
+            
+            // Clear the grid first
+            slideshowGrid.innerHTML = '';
+
+            // Create and append new image elements
+            newImages.forEach(imageSrc => {
+                const altText = `Photograph: ${imageSrc}`;
+                const imageContainer = document.createElement('div');
+                const imgElement = document.createElement('img');
+                
+                imgElement.src = imageSrc;
+                imgElement.alt = altText;
+                imgElement.className = 'h-auto max-w-full rounded-lg gallery-img cursor-pointer';
+                imgElement.onclick = () => openModal(imageSrc, altText);
+                
+                imageContainer.appendChild(imgElement);
+                slideshowGrid.appendChild(imageContainer);
+            });
+        }
+
+        // --- INITIALIZATION ---
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSlideshow();
+            // Set interval to change images automatically
+            setInterval(updateSlideshow, changeInterval);
+        });
+
+        // --- UTILITY FUNCTIONS ---
         // Set current year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
 
