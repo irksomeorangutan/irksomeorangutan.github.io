@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Irksomeorangutan | Photography</title>
+    <title>IrksomeOrangutan | Photography</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -24,11 +24,8 @@
         }
         /* Style for the gallery images */
         .gallery-img {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.5s ease-in-out;
-            opacity: 1;
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            margin-bottom: 1rem; /* Corresponds to gap-4 in the parent grid */
         }
         .gallery-img:hover {
             transform: scale(1.05);
@@ -49,7 +46,7 @@
     <!-- Header -->
     <header class="bg-gray-900/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-20 border-b border-gray-700">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-xl font-bold text-white">Irksomeorangutan</a>
+            <a href="#" class="text-xl font-bold text-white">IrksomeOrangutan</a>
             <nav class="hidden md:flex items-center space-x-6 text-sm">
                 <a href="#gallery" class="text-gray-300 hover:text-white transition-colors">Gallery</a>
                 <a href="#contact" class="text-gray-300 hover:text-white transition-colors">Contact</a>
@@ -74,9 +71,9 @@
 
         <!-- Photo Gallery Section -->
         <section id="gallery">
-            <!-- This grid will be populated by the slideshow script -->
-            <div id="slideshow-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <!-- Images will be inserted here by JavaScript -->
+            <!-- This grid will be populated by the script -->
+            <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Masonry columns will be inserted here by JavaScript -->
             </div>
         </section>
         
@@ -93,7 +90,7 @@
     <!-- Footer -->
     <footer class="border-t border-gray-800 mt-8">
         <div class="container mx-auto px-6 py-6 text-center text-gray-500 text-xs">
-            <p>&copy; <span id="year"></span> Irksomeorangutan</p>
+            <p>&copy; <span id="year"></span> IrksomeOrangutan</p>
         </div>
     </footer>
 
@@ -108,72 +105,94 @@
 
 
     <script>
-        // --- CONFIGURATION ---
-        // Add all your image filenames to this array
-        const allImages = [
-            '0.jpg', 'DSCF1572.JPG', 'DSCF1576.JPG', 'DSCF1632.JPG', 
-            'DSCF1733.JPG', 'DSCF1777.JPG', 'DSCF1778.JPG', 'DSCF1847.JPG', 
-            'DSCF1858.JPG', 'DSCF1905.JPG', 'DSCF1945.JPG', 'DSCF1978.JPG', 
-            'DSCF2004.JPG', 'DSCF2023.JPG', 'img1.jpg', 'img10.jpg', 
-            'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg', 'img6.jpg', 
-            'img7.jpg', 'img8.jpg', 'img9.jpg'
-        ];
+        // --- GALLERY CONFIGURATION ---
+        const githubUsername = 'irksomeorangutan';
+        const githubRepo = 'irksomeorangutan.github.io';
+        const numColumns = 4; // Adjust number of columns for the masonry layout
         const imagesToShow = 8; // Number of images to display at once
-        const changeInterval = 5000; // Time in milliseconds (5000ms = 5 seconds)
+        const changeInterval = 10000; // Time in milliseconds (10000ms = 10 seconds)
 
-        // --- SLIDESHOW LOGIC ---
-        const slideshowGrid = document.getElementById('slideshow-grid');
-        let currentImageSet = [];
+        // --- GALLERY LOADER ---
+        async function fetchImageNames() {
+            // Construct the GitHub API URL to get repository contents
+            const apiUrl = `https://api.github.com/repos/${githubUsername}/${githubRepo}/contents/`;
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`GitHub API error: ${response.status}`);
+                }
+                const files = await response.json();
 
-        // Function to get a specified number of unique random images
-        function getRandomImages() {
-            const shuffled = allImages.sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, imagesToShow);
+                // Filter for image files (jpg, jpeg) and return their names
+                return files
+                    .filter(file => file.type === 'file' && /\.(jpe?g)$/i.test(file.name))
+                    .map(file => file.name);
+
+            } catch (error) {
+                console.error("Failed to fetch images from GitHub:", error);
+                const galleryGrid = document.getElementById('gallery-grid');
+                galleryGrid.innerHTML = '<p class="text-center col-span-full">Could not load gallery images.</p>';
+                return []; // Return empty array on error
+            }
         }
 
-        // Function to update the grid with new images
-        function updateSlideshow() {
-            const newImages = getRandomImages();
-            
-            // Clear the grid first
-            slideshowGrid.innerHTML = '';
+        function populateGallery(images) {
+            const galleryGrid = document.getElementById('gallery-grid');
+            galleryGrid.innerHTML = ''; // Clear previous content
 
-            // Create and append new image elements
-            newImages.forEach(imageSrc => {
+            // Create column containers
+            const columns = [];
+            for (let i = 0; i < numColumns; i++) {
+                const column = document.createElement('div');
+                columns.push(column);
+                galleryGrid.appendChild(column);
+            }
+
+            // Distribute images into columns for a masonry effect
+            images.forEach((imageSrc, index) => {
+                const columnIndex = index % numColumns;
                 const altText = `Photograph: ${imageSrc}`;
-                const imageContainer = document.createElement('div');
+
                 const imgElement = document.createElement('img');
-                
                 imgElement.src = imageSrc;
                 imgElement.alt = altText;
                 imgElement.className = 'h-auto max-w-full rounded-lg gallery-img cursor-pointer';
                 imgElement.onclick = () => openModal(imageSrc, altText);
                 
-                imageContainer.appendChild(imgElement);
-                slideshowGrid.appendChild(imageContainer);
+                columns[columnIndex].appendChild(imgElement);
             });
         }
 
+        function updateSlideshow(allImages) {
+            if (allImages.length === 0) return;
+            // Shuffle the array and get a slice of it
+            const shuffled = allImages.sort(() => 0.5 - Math.random());
+            const selectedImages = shuffled.slice(0, imagesToShow);
+            populateGallery(selectedImages);
+        }
+
         // --- INITIALIZATION ---
-        // Initial load
-        document.addEventListener('DOMContentLoaded', () => {
-            updateSlideshow();
-            // Set interval to change images automatically
-            setInterval(updateSlideshow, changeInterval);
-        });
+        async function initializeGallery() {
+            const allImages = await fetchImageNames();
+            if (allImages.length > 0) {
+                // Initial population
+                updateSlideshow(allImages);
+                // Set interval to change images automatically
+                setInterval(() => updateSlideshow(allImages), changeInterval);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeGallery);
 
         // --- UTILITY FUNCTIONS ---
-        // Set current year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Mobile menu toggle
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
 
-        // Image Modal Logic
         const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
         const modalCaption = document.getElementById('modalCaption');
@@ -184,16 +203,15 @@
             modalCaption.textContent = alt;
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
-            document.body.style.overflow = 'auto'; // Restore scrolling
+            document.body.style.overflow = 'auto';
         }
 
-        // Close modal with Escape key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeModal();
